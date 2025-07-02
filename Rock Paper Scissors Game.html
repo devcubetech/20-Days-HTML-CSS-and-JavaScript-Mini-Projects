@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #2ecc71;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            text-align: center;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+
+        .score-board {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: var(--light);
+        }
+
+        .score {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .badge {
+            background-color: var(--secondary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .choices {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .choice {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: white;
+            border: 5px solid var(--secondary);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 3rem;
+        }
+
+        .choice:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(52, 152, 219, 0.5);
+        }
+
+        .choice:active {
+            transform: scale(0.95);
+        }
+
+        .result-container {
+            margin: 30px 0;
+            min-height: 100px;
+        }
+
+        #result {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+
+        .choices-made {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-top: 20px;
+        }
+
+        .choice-display {
+            text-align: center;
+        }
+
+        .choice-display p {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .choice-icon {
+            font-size: 4rem;
+            background-color: var(--light);
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        .computer-choice {
+            transform: scaleX(-1);
+        }
+
+        .reset-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .reset-btn:hover {
+            background-color: #c0392b;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+
+        .reset-btn:active {
+            transform: translateY(0);
+        }
+
+        .win {
+            color: var(--success);
+        }
+
+        .lose {
+            color: var(--accent);
+        }
+
+        .draw {
+            color: var(--secondary);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .bounce {
+            animation: bounce 0.5s ease;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        footer {
+            margin-top: 30px;
+            color: var(--primary);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Rock Paper Scissors</h1>
+        
+        <div class="score-board">
+            <div class="player-score">
+                <div class="badge">YOU</div>
+                <div id="player-score" class="score">0</div>
+            </div>
+            <div class="computer-score">
+                <div class="badge">COMPUTER</div>
+                <div id="computer-score" class="score">0</div>
+            </div>
+        </div>
+        
+        <div class="result-container">
+            <p id="result">Choose your weapon!</p>
+            <div id="choices-made" class="choices-made hidden">
+                <div class="choice-display">
+                    <p>Your Choice</p>
+                    <div id="player-choice" class="choice-icon">?</div>
+                </div>
+                <div class="choice-display">
+                    <p>Computer</p>
+                    <div id="computer-choice" class="choice-icon computer-choice">?</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="choices">
+            <div class="choice" data-choice="rock">✊</div>
+            <div class="choice" data-choice="paper">✋</div>
+            <div class="choice" data-choice="scissors">✌️</div>
+        </div>
+        
+        <button id="reset-btn" class="reset-btn">Reset Game</button>
+    </div>
+    
+    <footer>
+        Rock Paper Scissors Game | Made with HTML, CSS & JavaScript
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Game elements
+            const choices = document.querySelectorAll('.choice');
+            const playerScoreEl = document.getElementById('player-score');
+            const computerScoreEl = document.getElementById('computer-score');
+            const resultEl = document.getElementById('result');
+            const playerChoiceEl = document.getElementById('player-choice');
+            const computerChoiceEl = document.getElementById('computer-choice');
+            const choicesMadeEl = document.getElementById('choices-made');
+            const resetBtn = document.getElementById('reset-btn');
+            
+            // Game state
+            let playerScore = 0;
+            let computerScore = 0;
+            let gameActive = true;
+            
+            // Emoji mappings
+            const emojis = {
+                rock: '✊',
+                paper: '✋',
+                scissors: '✌️'
+            };
+            
+            // Initialize game
+            function initGame() {
+                playerScore = 0;
+                computerScore = 0;
+                gameActive = true;
+                updateScores();
+                resultEl.textContent = 'Choose your weapon!';
+                resultEl.className = '';
+                choicesMadeEl.classList.add('hidden');
+                
+                // Re-enable choices
+                choices.forEach(choice => {
+                    choice.style.pointerEvents = 'auto';
+                    choice.style.opacity = '1';
+                });
+            }
+            
+            // Update score display
+            function updateScores() {
+                playerScoreEl.textContent = playerScore;
+                computerScoreEl.textContent = computerScore;
+            }
+            
+            // Computer makes random choice
+            function computerPlay() {
+                const choices = ['rock', 'paper', 'scissors'];
+                const randomIndex = Math.floor(Math.random() * 3);
+                return choices[randomIndex];
+            }
+            
+            // Determine the winner
+            function playRound(playerSelection, computerSelection) {
+                if (playerSelection === computerSelection) {
+                    return 'draw';
+                }
+                
+                if (
+                    (playerSelection === 'rock' && computerSelection === 'scissors') ||
+                    (playerSelection === 'paper' && computerSelection === 'rock') ||
+                    (playerSelection === 'scissors' && computerSelection === 'paper')
+                ) {
+                    return 'win';
+                }
+                
+                return 'lose';
+            }
+            
+            // Handle player choice
+            function handleChoice(e) {
+                if (!gameActive) return;
+                
+                const playerChoice = e.currentTarget.dataset.choice;
+                const computerChoice = computerPlay();
+                const result = playRound(playerChoice, computerChoice);
+                
+                // Update choices display
+                playerChoiceEl.textContent = emojis[playerChoice];
+                computerChoiceEl.textContent = emojis[computerChoice];
+                choicesMadeEl.classList.remove('hidden');
+                
+                // Add bounce animation
+                playerChoiceEl.classList.add('bounce');
+                computerChoiceEl.classList.add('bounce');
+                setTimeout(() => {
+                    playerChoiceEl.classList.remove('bounce');
+                    computerChoiceEl.classList.remove('bounce');
+                }, 500);
+                
+                // Update game state and UI based on result
+                switch (result) {
+                    case 'win':
+                        playerScore++;
+                        resultEl.textContent = `You Win! ${playerChoice} beats ${computerChoice}`;
+                        resultEl.className = 'win';
+                        break;
+                    case 'lose':
+                        computerScore++;
+                        resultEl.textContent = `You Lose! ${computerChoice} beats ${playerChoice}`;
+                        resultEl.className = 'lose';
+                        break;
+                    case 'draw':
+                        resultEl.textContent = `It's a Draw! Both chose ${playerChoice}`;
+                        resultEl.className = 'draw';
+                        break;
+                }
+                
+                updateScores();
+                
+                // Check for game end (first to 5 wins)
+                if (playerScore >= 5 || computerScore >= 5) {
+                    gameActive = false;
+                    if (playerScore > computerScore) {
+                        resultEl.textContent = '🎉 Congratulations! You won the game! 🎉';
+                    } else {
+                        resultEl.textContent = '😢 Computer wins the game! Better luck next time! 😢';
+                    }
+                    
+                    // Disable further choices
+                    choices.forEach(choice => {
+                        choice.style.pointerEvents = 'none';
+                        choice.style.opacity = '0.5';
+                    });
+                }
+            }
+            
+            // Event listeners
+            choices.forEach(choice => {
+                choice.addEventListener('click', handleChoice);
+            });
+            
+            resetBtn.addEventListener('click', initGame);
+            
+            // Initialize the game
+            initGame();
+        });
+    </script>
+</body>
+</html>
