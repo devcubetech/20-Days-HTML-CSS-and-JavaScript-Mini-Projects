@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Digital Clock</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Background Animation */
+        .circles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .circles li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+        }
+
+        .circles li:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .circles li:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .circles li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .circles li:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .circles li:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .circles li:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .circles li:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .circles li:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
+
+        /* Clock Styles */
+        .clock-container {
+            text-align: center;
+            padding: 3rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .clock-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.3),
+                        0 0 30px rgba(0, 255, 255, 0.2);
+        }
+
+        .time {
+            font-size: 8rem;
+            font-weight: 300;
+            letter-spacing: 8px;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 15px rgba(0, 255, 255, 0.5),
+                         0 0 30px rgba(0, 255, 255, 0.3);
+            line-height: 1.2;
+        }
+
+        .date {
+            font-size: 2rem;
+            font-weight: 300;
+            opacity: 0.9;
+            letter-spacing: 3px;
+            margin-top: 1rem;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        .colon {
+            animation: blink 1s infinite;
+            position: relative;
+            top: -0.1em;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .time {
+                font-size: 4.5rem;
+                letter-spacing: 4px;
+            }
+            .date {
+                font-size: 1.5rem;
+            }
+            .clock-container {
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .time {
+                font-size: 3rem;
+                letter-spacing: 2px;
+            }
+            .date {
+                font-size: 1rem;
+            }
+            .clock-container {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Animation Elements -->
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+
+    <!-- Clock Container -->
+    <div class="clock-container">
+        <div class="time" id="time"></div>
+        <div class="date" id="date"></div>
+    </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            
+            // Get time components
+            let hours = now.getHours();
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            const seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            // 24-hour format with leading zero
+            hours = hours.toString().padStart(2, '0');
+            
+            // Create time string with blinking colons
+            const timeString = `${hours}<span class="colon">:</span>${minutes}<span class="colon">:</span>${seconds}`;
+            
+            // Get date components
+            const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            
+            const dayName = days[now.getDay()];
+            const monthName = months[now.getMonth()];
+            const day = now.getDate();
+            const year = now.getFullYear();
+            
+            const dateString = `${dayName}, ${monthName} ${day}, ${year}`;
+            
+            // Update the DOM
+            document.getElementById('time').innerHTML = timeString;
+            document.getElementById('date').textContent = dateString;
+        }
+        
+        // Update the clock immediately and then every second
+        updateClock();
+        setInterval(updateClock, 1000);
+
+        // Add dynamic background color change based on time
+        function updateBackground() {
+            const now = new Date();
+            const hours = now.getHours();
+            const body = document.body;
+            
+            // Change gradient based on time of day
+            if (hours >= 6 && hours < 12) {
+                // Morning
+                body.style.background = 'linear-gradient(135deg, #1a1a2e, #1e3c72)';
+            } else if (hours >= 12 && hours < 18) {
+                // Afternoon
+                body.style.background = 'linear-gradient(135deg, #1a1a2e, #4b6cb7)';
+            } else if (hours >= 18 && hours < 22) {
+                // Evening
+                body.style.background = 'linear-gradient(135deg, #1a1a2e, #2c3e50)';
+            } else {
+                // Night
+                body.style.background = 'linear-gradient(135deg, #0f0c29, #302b63)';
+            }
+        }
+        
+        // Update background initially and every hour
+        updateBackground();
+        setInterval(updateBackground, 3600000);
+    </script>
+</body>
+</html>
